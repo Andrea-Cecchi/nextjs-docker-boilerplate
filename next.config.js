@@ -5,6 +5,15 @@
 import "./src/env.js";
 
 /** @type {import("next").NextConfig} */
-const config = {};
+const config = {
+    output: "standalone",
+    experimental: {
+        serverActions: {
+            bodySizeLimit: '100mb'
+        }
+    }
+};
+
+
 
 export default config;

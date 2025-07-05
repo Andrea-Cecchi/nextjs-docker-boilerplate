@@ -1,0 +1,54 @@
+services:
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: nextjsdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - custom-network
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres", "-d", "nextjsdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - custom-network
+
+  prisma-studio:
+    image: node:20-alpine
+    working_dir: /app
+    command: sh -c "npm install -g prisma && npx prisma studio --port 5555 --schema=prisma/schema.prisma"
+    ports:
+      - "5555:5555"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    networks:
+      - custom-network
+
+volumes:
+  postgres_data:
+
+networks:
+  custom-network:
+    driver: bridge

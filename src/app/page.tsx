@@ -1,37 +1,136 @@
-import Link from "next/link";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
+import { Button } from "~/components/ui/button";
+import { NavBar } from "~/components/navbar";
 
 export default function HomePage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-        <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-          Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
-        </h1>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-          <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-            href="https://create.t3.gg/en/usage/first-steps"
-            target="_blank"
-          >
-            <h3 className="text-2xl font-bold">First Steps →</h3>
-            <div className="text-lg">
-              Just the basics - Everything you need to know to set up your
-              database and authentication.
-            </div>
-          </Link>
-          <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-            href="https://create.t3.gg/en/introduction"
-            target="_blank"
-          >
-            <h3 className="text-2xl font-bold">Documentation →</h3>
-            <div className="text-lg">
-              Learn more about Create T3 App, the libraries it uses, and how to
-              deploy it.
-            </div>
-          </Link>
+    <div className="min-h-screen bg-gradient-to-br from-background to-muted/20">
+      <NavBar />
+      <main className="container mx-auto px-4 py-16">
+        {/* Hero Section */}
+        <div className="text-center mb-16">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+            Next.js Docker Boilerplate
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
+            Un boilerplate moderno e pronto all'uso con Next.js, Docker, Prisma, e Better Auth. 
+            Tutto quello che ti serve per iniziare il tuo prossimo progetto.
+          </p>
+          <Button size="lg" className="mr-4">
+            Inizia Subito
+          </Button>
+          <Button variant="outline" size="lg">
+            Documentazione
+          </Button>
         </div>
-      </div>
-    </main>
+
+        {/* Features Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+          <Card className="border-2 hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                  ⚡
+                </div>
+                Next.js 15
+              </CardTitle>
+              <CardDescription>
+                Framework React con App Router, Server Components e tutte le ultime funzionalità
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card className="border-2 hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                  🐳
+                </div>
+                Docker Ready
+              </CardTitle>
+              <CardDescription>
+                Configurazione Docker completa per sviluppo e produzione con Docker Compose
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card className="border-2 hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                  🔐
+                </div>
+                Better Auth
+              </CardTitle>
+              <CardDescription>
+                Sistema di autenticazione moderno con supporto per OAuth e gestione sessioni
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card className="border-2 hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                  🗃️
+                </div>
+                Prisma ORM
+              </CardTitle>
+              <CardDescription>
+                Database ORM type-safe con migrazioni automatiche e Prisma Studio
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card className="border-2 hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                  🎨
+                </div>
+                Shadcn/UI
+              </CardTitle>
+              <CardDescription>
+                Componenti UI moderni e accessibili con Tailwind CSS e Radix UI
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card className="border-2 hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                  ⚙️
+                </div>
+                TypeScript
+              </CardTitle>
+              <CardDescription>
+                Type safety completa con ESLint, Prettier e configurazione ottimizzata
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </div>
+
+        {/* CTA Section */}
+        <div className="text-center">
+          <Card className="max-w-2xl mx-auto">
+            <CardHeader>
+              <CardTitle className="text-2xl">Pronto per iniziare?</CardTitle>
+              <CardDescription>
+                Clona il repository e avvia il tuo progetto in pochi minuti
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="bg-muted p-4 rounded-lg font-mono text-sm mb-4">
+                <span className="text-muted-foreground">git clone</span> https://github.com/your-repo/nextjs-docker-boilerplate
+              </div>
+              <Button className="w-full">
+                Inizia il tuo progetto
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      </main>
+    </div>
   );
 }
