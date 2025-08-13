@@ -1,134 +1,84 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
-import { Button } from "~/components/ui/button";
+"use client";
+
+import { Input } from "~/components/ui/input";
 import { NavBar } from "~/components/navbar";
+import { Search, Pill, Heart, Zap, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
+import { Button } from "~/components/ui/button";
+import Link from "next/link";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-muted/20">
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-purple-950 dark:via-pink-950 dark:to-blue-950">
       <NavBar />
-      <main className="container mx-auto px-4 py-16">
-        {/* Hero Section */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-            Next.js Docker Boilerplate
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-            Un boilerplate moderno e pronto all'uso con Next.js, Docker, Prisma, e Better Auth. 
-            Tutto quello che ti serve per iniziare il tuo prossimo progetto.
-          </p>
-          <Button size="lg" className="mr-4">
-            Inizia Subito
+
+      <main className="relative z-10 container mx-auto px-4 py-16">
+        <div className="mb-20 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="mb-8 flex items-center justify-center gap-4"
+          >
+            <motion.h1
+              className="font-bungee bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-6xl font-black text-transparent md:text-8xl"
+              animate={{
+                scale: [1, 1.05, 1],
+                rotate: [0, 1, -1, 0],
+              }}
+              transition={{
+                duration: 6,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            >
+              La salute,
+            </motion.h1>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="mb-8 flex items-center justify-center gap-4"
+          >
+            <h2 className="text-5xl font-black text-gray-800 md:text-7xl">
+              conta molto.
+            </h2>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="mb-12 flex items-center justify-center gap-4"
+          >
+            <h3 className="text-4xl font-black text-gray-800 md:text-6xl">
+              Ma anche il tuo portafoglio!
+            </h3>
+          </motion.div>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="mx-auto mb-12 max-w-3xl text-xl font-medium text-gray-600 md:text-2xl"
+          >
+            Cerca farmaci, confronta i prezzi e salva i tuoi preferiti.
+          </motion.p>
+
+          <Button
+            asChild
+            className="rounded-2xl border-2 border-black bg-white/30 p-6 text-2xl text-black backdrop-blur-sm transition-all duration-300 hover:translate-x-1 hover:bg-white/80 hover:text-black"
+          >
+            <Link
+              href="/drugs"
+              className="flex items-center justify-center gap-2"
+            >
+              Vai alla ricerca
+              <ArrowRight className="size-6" />
+            </Link>
           </Button>
-          <Button variant="outline" size="lg">
-            Documentazione
-          </Button>
-        </div>
-
-        {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-          <Card className="border-2 hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-                  ⚡
-                </div>
-                Next.js 15
-              </CardTitle>
-              <CardDescription>
-                Framework React con App Router, Server Components e tutte le ultime funzionalità
-              </CardDescription>
-            </CardHeader>
-          </Card>
-
-          <Card className="border-2 hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-                  🐳
-                </div>
-                Docker Ready
-              </CardTitle>
-              <CardDescription>
-                Configurazione Docker completa per sviluppo e produzione con Docker Compose
-              </CardDescription>
-            </CardHeader>
-          </Card>
-
-          <Card className="border-2 hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-                  🔐
-                </div>
-                Better Auth
-              </CardTitle>
-              <CardDescription>
-                Sistema di autenticazione moderno con supporto per OAuth e gestione sessioni
-              </CardDescription>
-            </CardHeader>
-          </Card>
-
-          <Card className="border-2 hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-                  🗃️
-                </div>
-                Prisma ORM
-              </CardTitle>
-              <CardDescription>
-                Database ORM type-safe con migrazioni automatiche e Prisma Studio
-              </CardDescription>
-            </CardHeader>
-          </Card>
-
-          <Card className="border-2 hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-                  🎨
-                </div>
-                Shadcn/UI
-              </CardTitle>
-              <CardDescription>
-                Componenti UI moderni e accessibili con Tailwind CSS e Radix UI
-              </CardDescription>
-            </CardHeader>
-          </Card>
-
-          <Card className="border-2 hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-                  ⚙️
-                </div>
-                TypeScript
-              </CardTitle>
-              <CardDescription>
-                Type safety completa con ESLint, Prettier e configurazione ottimizzata
-              </CardDescription>
-            </CardHeader>
-          </Card>
-        </div>
-
-        {/* CTA Section */}
-        <div className="text-center">
-          <Card className="max-w-2xl mx-auto">
-            <CardHeader>
-              <CardTitle className="text-2xl">Pronto per iniziare?</CardTitle>
-              <CardDescription>
-                Clona il repository e avvia il tuo progetto in pochi minuti
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="bg-muted p-4 rounded-lg font-mono text-sm mb-4">
-                <span className="text-muted-foreground">git clone</span> https://github.com/your-repo/nextjs-docker-boilerplate
-              </div>
-              <Button className="w-full">
-                Inizia il tuo progetto
-              </Button>
-            </CardContent>
-          </Card>
         </div>
       </main>
     </div>

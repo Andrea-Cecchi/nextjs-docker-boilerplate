@@ -1,0 +1,13 @@
+# FarMix Worker - Crontab per ETL AIFA
+# Importante: usare path completi per i comandi
+
+# Esegue il job alle 04:00 ogni giorno
+0 4 * * * cd /app && /usr/local/bin/python main.py >> /var/log/cron.log 2>&1
+
+# Esegue un test di connessione ogni ora per monitoraggio
+0 * * * * cd /app && /usr/local/bin/python main.py --test-connection >> /var/log/cron.log 2>&1
+
+# Pulizia log settimanale (ogni domenica alle 02:00)
+0 2 * * 0 /usr/bin/truncate -s 0 /var/log/cron.log /tmp/farmix-worker.log
+
+# Linea vuota richiesta alla fine del crontab

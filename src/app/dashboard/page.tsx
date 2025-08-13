@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 
 export default async function DashboardPage() {
   const session = await auth.api.getSession({
-    headers: await headers()
+    headers: await headers(),
   });
 
   if (!session) {
@@ -12,11 +12,13 @@ export default async function DashboardPage() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-background text-foreground">
+    <main className="bg-background text-foreground flex min-h-screen flex-col items-center justify-center">
       <div className="container flex flex-col items-center justify-center gap-8 px-4 py-16">
-        <h1 className="text-3xl font-bold">Benvenuto, {session.user.name || session.user.email}!</h1>
-        <p className="text-lg">Questa è la tua dashboard minimale protetta.</p>
+        <h1 className="text-3xl font-bold">
+          Benvenuto, {session.user.name || session.user.email}!
+        </h1>
+        <p className="text-lg">Questa è la tua dashboard.</p>
       </div>
     </main>
   );
-} 
+}

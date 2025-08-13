@@ -18,36 +18,64 @@ services:
       timeout: 5s
       retries: 5
 
+  redis:
+    image: redis:alpine3.21
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    environment:
+      - REDIS_PASSWORD=farmixredis
+      - REDIS_PORT=6379
+      - REDIS_DATABASES=16
+    networks:
+      - custom-network
+
   app:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
-    volumes:
-      - .:/app
     env_file:
       - .env
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     networks:
       - custom-network
-
-  prisma-studio:
-    image: node:20-alpine
-    working_dir: /app
-    command: sh -c "npm install -g prisma && npx prisma studio --port 5555 --schema=prisma/schema.prisma"
-    ports:
-      - "5555:5555"
     volumes:
       - .:/app
+      - /app/node_modules
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  farmix-worker:
+    build:
+      context: ./worker
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    environment:
+      - REQUEST_TIMEOUT=120
+      - BATCH_SIZE=1000
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
     networks:
       - custom-network
+    healthcheck:
+      test: ["CMD", "python", "main.py", "--test-connection"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
 
 volumes:
   postgres_data:
+  redis_data:
 
 networks:
   custom-network:

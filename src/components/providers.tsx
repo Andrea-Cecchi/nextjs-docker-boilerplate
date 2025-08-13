@@ -1,5 +1,8 @@
 "use client";
 
+import posthog from "posthog-js";
+import { PostHogProvider as PHProvider } from "posthog-js/react";
+import { useEffect } from "react";
 import { authClient } from "../lib/auth-client";
 import type { ReactNode } from "react";
 
@@ -7,7 +10,7 @@ import type { ReactNode } from "react";
 export const useAuth = () => {
   const session = authClient.useSession();
   const signOut = authClient.signOut;
-  
+
   return {
     session: session.data,
     isLoading: session.isPending,
@@ -15,11 +18,48 @@ export const useAuth = () => {
   };
 };
 
-// Provider semplificato che usa Better Auth internamente
+// Hook per identificare l'utente in PostHog quando la sessione è disponibile
+export const usePostHogIdentify = () => {
+  const session = authClient.useSession();
+  
+  useEffect(() => {
+    if (session.data?.user && !session.isPending) {
+      posthog.identify(session.data.user.id, {
+        email: session.data.user.email,
+        name: session.data.user.name,
+        login_timestamp: new Date().toISOString()
+      });
+    }
+  }, [session.data, session.isPending]);
+};
+
+// Componente per identificare l'utente in PostHog
+export function PostHogIdentifier() {
+  usePostHogIdentify();
+  return null;
+}
+
+// Provider che inizializza e fornisce PostHog al client
+export function PostHogProvider({ children }: { children: ReactNode }) {
+  useEffect(() => {
+    posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
+      api_host: "/ingest",
+      ui_host: "https://eu.posthog.com",
+      defaults: "2025-05-24",
+      capture_exceptions: true,
+      debug: process.env.NODE_ENV === "development",
+    });
+  }, []);
+
+  return <PHProvider client={posthog}>{children}</PHProvider>;
+}
+
+// Provider semplificato che usa Better Auth internamente e PostHog
 export function Providers({ children }: { children: ReactNode }) {
   return (
-    <>
+    <PostHogProvider>
+      <PostHogIdentifier />
       {children}
-    </>
+    </PostHogProvider>
   );
-} 
+}

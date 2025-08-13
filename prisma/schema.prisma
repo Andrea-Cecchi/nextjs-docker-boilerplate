@@ -1,8 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
 }
 
@@ -12,24 +9,24 @@ datasource db {
 }
 
 model User {
-  id            String    @id
+  id            String     @id
   name          String
-  email         String
+  email         String     @unique
   emailVerified Boolean
   image         String?
   createdAt     DateTime
   updatedAt     DateTime
-  sessions      Session[]
   accounts      Account[]
+  favorites     Favorite[]
+  sessions      Session[]
 
-  @@unique([email])
   @@map("user")
 }
 
 model Session {
   id        String   @id
   expiresAt DateTime
-  token     String
+  token     String   @unique
   createdAt DateTime
   updatedAt DateTime
   ipAddress String?
@@ -37,7 +34,6 @@ model Session {
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([token])
   @@map("session")
 }
 
@@ -46,7 +42,6 @@ model Account {
   accountId             String
   providerId            String
   userId                String
-  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   accessToken           String?
   refreshToken          String?
   idToken               String?
@@ -56,6 +51,7 @@ model Account {
   password              String?
   createdAt             DateTime
   updatedAt             DateTime
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("account")
 }
@@ -69,4 +65,46 @@ model Verification {
   updatedAt  DateTime?
 
   @@map("verification")
+}
+
+model Drug {
+  id                    String         @id @db.VarChar(9) // AIC
+  activeSubstance       String         // Principio attivo
+  referencePackage      String         // Confezione di riferimento
+  atc                   String?        // ATC
+  brandName             String         // Farmaco
+  pack                  String         // Confezione
+  holder                String?        // Ditta
+  ssnReferencePrice     Decimal?       @db.Decimal(10, 3) // Prezzo riferimento SSN
+  publicPrice           Decimal?       @db.Decimal(10, 3) // Prezzo Pubblico
+  priceDifference       Decimal?       @db.Decimal(10, 3) // Differenza
+  note                  String?        // Nota
+  equivalenceGroupCode  String?        // Codice gruppo equivalenza
+  favorites             Favorite[]
+  priceHistory          PriceHistory[]
+
+  @@map("drug")
+}
+
+model PriceHistory {
+  id               Int      @id @default(autoincrement())
+  drugId           String   @db.VarChar(9)
+  date             DateTime @db.Date
+  ssnReferencePrice Decimal @db.Decimal(10, 3) // Prezzo riferimento SSN
+  publicPrice      Decimal? @db.Decimal(10, 3) // Prezzo pubblico
+  drug             Drug     @relation(fields: [drugId], references: [id])
+
+  @@unique([drugId, date])
+  @@map("price_history")
+}
+
+model Favorite {
+  id     Int    @id @default(autoincrement())
+  userId String
+  drugId String @db.VarChar(9)
+  drug   Drug   @relation(fields: [drugId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@unique([userId, drugId])
+  @@map("favorite")
 }
