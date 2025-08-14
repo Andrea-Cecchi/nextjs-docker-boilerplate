@@ -252,7 +252,7 @@ export default function TermsPage() {
                   
                   <p className="text-sm">
                     Puoi cancellare il tuo account in qualsiasi momento dalle impostazioni del profilo 
-                    o contattandoci a <a href="mailto:support@farmix.it" className="text-[#0066cc] hover:underline">support@farmix.it</a>.
+                    o contattandoci a <a href="mailto:support@farmix.info" className="text-[#0066cc] hover:underline">support@farmix.info</a>.
                   </p>
                 </div>
               </section>
@@ -273,9 +273,9 @@ export default function TermsPage() {
               <section>
                 <h2 className="text-lg font-semibold mb-3">12. Contatti</h2>
                 <div className="space-y-2 text-sm">
-                  <p><strong>Supporto tecnico:</strong> <a href="mailto:support@farmix.it" className="text-[#0066cc] hover:underline">support@farmix.it</a></p>
-                  <p><strong>Privacy e dati:</strong> <a href="mailto:privacy@farmix.it" className="text-[#0066cc] hover:underline">privacy@farmix.it</a></p>
-                  <p><strong>Questioni legali:</strong> <a href="mailto:legal@farmix.it" className="text-[#0066cc] hover:underline">legal@farmix.it</a></p>
+                  <p><strong>Supporto tecnico:</strong> <a href="mailto:support@farmix.info" className="text-[#0066cc] hover:underline">support@farmix.info</a></p>
+                  <p><strong>Privacy e dati:</strong> <a href="mailto:privacy@farmix.info" className="text-[#0066cc] hover:underline">privacy@farmix.info</a></p>
+                  <p><strong>Questioni legali:</strong> <a href="mailto:legal@farmix.info" className="text-[#0066cc] hover:underline">legal@farmix.info</a></p>
                 </div>
               </section>
 

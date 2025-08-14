@@ -205,7 +205,7 @@ export default function CookiePolicyPage() {
                 <p className="text-sm">
                   Per domande su questa Cookie Policy o per esercitare i tuoi diritti:
                   <br/>
-                  Email: <a href="mailto:privacy@farmix.it" className="text-[#0066cc] hover:underline">privacy@farmix.it</a>
+                  Email: <a href="mailto:privacy@farmix.info" className="text-[#0066cc] hover:underline">privacy@farmix.info</a>
                   <br/>
                   Per maggiori informazioni sui tuoi diritti, consulta la nostra <a href="/privacy" className="text-[#0066cc] hover:underline">Privacy Policy</a>.
                 </p>

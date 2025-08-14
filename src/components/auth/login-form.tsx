@@ -14,7 +14,7 @@ import {
 } from "../ui/card";
 import { authClient } from "../../lib/auth-client";
 import Link from "next/link";
-import { Loader2, Eye, EyeOff, Mail, Lock } from "lucide-react";
+import { Loader2, Eye, EyeOff, Mail, Lock, AlertCircle, Send, Pill } from "lucide-react";
 import { cn } from "~/lib/utils";
 import { usePostHog } from "posthog-js/react";
 
@@ -24,6 +24,8 @@ export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [emailNotVerified, setEmailNotVerified] = useState(false);
+  const [resendingEmail, setResendingEmail] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
   const posthog = usePostHog();
@@ -35,6 +37,7 @@ export function LoginForm() {
     e.preventDefault();
     setIsLoading(true);
     setError("");
+    setEmailNotVerified(false);
 
     try {
       const { data, error } = await authClient.signIn.email(
@@ -45,9 +48,8 @@ export function LoginForm() {
         {
           onError: (ctx) => {
             if (ctx.error.status === 403) {
-              setError(
-                "Email non verificata. Controlla la tua casella di posta.",
-              );
+              setEmailNotVerified(true);
+              setError("Email non verificata. Devi verificare il tuo indirizzo email prima di accedere.");
             } else if (ctx.error.status === 401) {
               setError("Credenziali non valide. Controlla email e password.");
             } else {
@@ -80,6 +82,30 @@ export function LoginForm() {
     }
   };
 
+  const resendVerificationEmail = async () => {
+    if (!email) {
+      setError("Inserisci il tuo indirizzo email per rinviare l'email di verifica.");
+      return;
+    }
+
+    setResendingEmail(true);
+    try {
+      await authClient.sendVerificationEmail({
+        email,
+        callbackURL: callbackUrl,
+      });
+      
+      setError("");
+      setEmailNotVerified(false);
+      // Mostra un messaggio di successo
+      setError("✅ Email di verifica inviata! Controlla la tua casella di posta e la cartella spam.");
+    } catch (error) {
+      setError("Errore nell'invio dell'email di verifica. Riprova più tardi.");
+    } finally {
+      setResendingEmail(false);
+    }
+  };
+
   const signInWithGoogle = async () => {
     console.log("signInWithGoogle");
     try {
@@ -105,8 +131,14 @@ export function LoginForm() {
   };
 
   return (
-    <Card className="w-full border-0 bg-white/80 shadow-lg backdrop-blur-sm">
+    <Card className="w-full border-0 shadow-none md:border md:shadow-lg bg-white/80 backdrop-blur-sm">
       <CardHeader className="space-y-1 pb-4">
+        <div className="flex flex-row justify-center text-center gap-4 items-center mb-4">
+          <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-[#0066cc]/10">
+            <Pill className="h-6 w-6 text-[#0066cc]" />
+          </div>
+          <h1 className="text-xl font-bold text-[#0066cc]">Farmix</h1>
+        </div>
         <CardTitle className="text-center text-2xl font-semibold">
           Accedi al tuo account
         </CardTitle>
@@ -176,7 +208,7 @@ export function LoginForm() {
 
           <div className="flex items-center justify-between">
             <Link
-              href="#"
+              href="/auth/forgot-password"
               className="text-sm text-blue-600 hover:text-blue-800 hover:underline"
             >
               Password dimenticata?
@@ -184,9 +216,38 @@ export function LoginForm() {
           </div>
 
           {error && (
-            <div className="flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-600">
-              <div className="h-2 w-2 rounded-full bg-red-500"></div>
-              {error}
+            <div className={cn(
+              "rounded-lg border p-3 text-sm",
+              error.startsWith("✅") 
+                ? "border-gray-200 bg-gray-50 text-gray-600"
+                : "border-red-200 bg-red-50 text-red-600"
+            )}>
+              <div className="flex items-start gap-2">
+                {error.startsWith("✅") ? (
+                  <div className="h-2 w-2 mt-2 rounded-full bg-gray-500"></div>
+                ) : (
+                  <AlertCircle className="h-4 w-4 mt-0.5 text-red-500" />
+                )}
+                <div className="flex-1">
+                  {error}
+                  {emailNotVerified && (
+                    <div className="mt-3">
+                      <button
+                        onClick={resendVerificationEmail}
+                        disabled={resendingEmail}
+                        className="flex items-center gap-2 px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md text-sm font-medium transition-colors disabled:opacity-50"
+                      >
+                        {resendingEmail ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          <Send className="h-4 w-4" />
+                        )}
+                        {resendingEmail ? "Invio in corso..." : "Rinvia email di verifica"}
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
           )}
 

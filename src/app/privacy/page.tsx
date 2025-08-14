@@ -23,8 +23,9 @@ export default function PrivacyPage() {
               <section>
                 <h2 className="text-lg font-semibold mb-3">1. Titolare del Trattamento</h2>
                 <p>
-                  Il titolare del trattamento dei dati personali è Farmix, con sede presso [inserire indirizzo].
-                  Per contattarci in merito alla presente Privacy Policy: <a href="mailto:privacy@farmix.it" className="text-[#0066cc] hover:underline">privacy@farmix.it</a>
+                  Il titolare del trattamento dei dati personali è Andrea Cecchi.
+                  <br/>
+                  Per contattarci in merito alla privacy policy, puoi inviare un'email a: <a href="mailto:privacy@farmix.info" className="text-[#0066cc] hover:underline">privacy@farmix.info</a>
                 </p>
               </section>
 
@@ -144,10 +145,9 @@ export default function PrivacyPage() {
                   <li><strong>Revoca consenso:</strong> Revocare il consenso in qualsiasi momento</li>
                 </ul>
                 <p className="text-sm mt-3">
-                  Per esercitare i tuoi diritti, contattaci a: <a href="mailto:privacy@farmix.it" className="text-[#0066cc] hover:underline">privacy@farmix.it</a>
+                  Per esercitare i tuoi diritti, contattaci a: <a href="mailto:privacy@farmix.info" className="text-[#0066cc] hover:underline">privacy@farmix.info</a>
                 </p>
               </section>
-
               <Separator />
 
               <section>

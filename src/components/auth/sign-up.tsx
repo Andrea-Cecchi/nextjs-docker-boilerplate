@@ -19,7 +19,7 @@ import { useState } from "react";
 
 import Image from "next/image";
 
-import { Loader2, X } from "lucide-react";
+import { Loader2, X, CheckCircle, Mail, Pill } from "lucide-react";
 
 import { signUp, authClient } from "@/lib/auth-client";
 
@@ -47,6 +47,7 @@ export default function SignUp() {
   const searchParams = useSearchParams();
 
   const [loading, setLoading] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
   const posthog = usePostHog();
   
   // Ottieni il callbackUrl dai parametri di ricerca
@@ -68,9 +69,69 @@ export default function SignUp() {
     }
   };
 
+  // Se l'email è stata inviata, mostra il messaggio di successo
+  if (emailSent) {
+    return (
+        <Card className="z-50 max-w-md rounded-xl border-0 shadow-none md:border md:border-white/20 md:shadow-xl bg-white/50 backdrop-blur-xs">
+        <CardHeader className="text-center">
+          <div className="flex flex-row justify-center text-center gap-4 items-center mb-4">
+            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-[#0066cc]/10">
+              <Pill className="h-6 w-6 text-[#0066cc]" />
+            </div>
+            <h1 className="text-xl font-bold text-[#0066cc]">Farmix</h1>
+          </div>
+          <div className="flex justify-center mb-4">
+            <div className="flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full">
+              <CheckCircle className="w-8 h-8 text-gray-600" />
+            </div>
+          </div>
+          <CardTitle className="text-lg md:text-xl">
+            Email di verifica inviata
+          </CardTitle>
+          <CardDescription className="text-xs md:text-sm">
+            Controlla la tua casella email per completare la registrazione
+          </CardDescription>
+        </CardHeader>
+
+        <CardContent className="text-center space-y-4">
+          <div className="flex items-center justify-center space-x-2 text-sm text-gray-600">
+            <Mail className="w-4 h-4" />
+            <span>Email inviata a: <strong>{email}</strong></span>
+          </div>
+          
+          <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 text-sm">
+            <p className="text-gray-800 font-medium mb-2">Cosa fare ora:</p>
+            <ul className="text-gray-700 text-left space-y-1">
+              <li>• Controlla la tua casella email</li>
+              <li>• <strong>Controlla anche la cartella spam</strong></li>
+              <li>• Clicca sul link di verifica nell'email</li>
+              <li>• Verrai reindirizzato automaticamente</li>
+            </ul>
+          </div>
+
+          <div className="text-xs text-gray-500">
+            Non hai ricevuto l'email? Controlla la cartella spam o{" "}
+            <button 
+              onClick={() => setEmailSent(false)}
+              className="text-blue-600 hover:underline font-medium"
+            >
+              riprova la registrazione
+            </button>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
-    <Card className="z-50 max-w-md rounded-xl border border-white/20 bg-white/20 shadow-xl backdrop-blur-xs">
+    <Card className="z-50 max-w-md rounded-xl border-0 shadow-none md:border md:border-white/20 md:shadow-xl bg-white/20 backdrop-blur-xs">
       <CardHeader>
+        <div className="flex flex-row justify-center text-center gap-4 items-center mb-4">
+          <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-[#0066cc]/10">
+            <Pill className="h-6 w-6 text-[#0066cc]" />
+          </div>
+          <h1 className="text-xl font-bold text-[#0066cc]">Farmix</h1>
+        </div>
         <CardTitle className="text-lg md:text-xl">Registrati</CardTitle>
 
         <CardDescription className="text-xs md:text-sm">
@@ -193,8 +254,8 @@ export default function SignUp() {
                       timestamp: new Date().toISOString()
                     });
                     
-                    // Redirect manuale con supporto per callbackUrl
-                    router.push(callbackUrl);
+                    // Mostra il messaggio di email inviata invece di fare redirect
+                    setEmailSent(true);
                   },
                 },
               });

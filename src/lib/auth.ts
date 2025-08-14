@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
 import { db } from "~/server/db";
+import { sendVerificationEmail, sendPasswordResetEmail } from "./email";
 
 export const auth = betterAuth({
   database: prismaAdapter(db, {
@@ -9,7 +10,30 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
-    requireEmailVerification: false,
+    requireEmailVerification: true,
+    sendResetPassword: async ({ user, url, token }, request) => {
+      await sendPasswordResetEmail({
+        to: user.email,
+        userName: user.name,
+        resetUrl: url,
+      });
+    },
+  },
+  emailVerification: {
+    sendOnSignUp: true,
+    autoSignInAfterVerification: true,
+    sendVerificationEmail: async ({ user, url, token }, request) => {
+      await sendVerificationEmail({
+        to: user.email,
+        userName: user.name,
+        verificationUrl: url,
+      });
+    },
+    afterEmailVerification: async (user, request) => {
+      console.log(`✅ Email verificata con successo per l'utente: ${user.email}`);
+      // Qui puoi aggiungere logica personalizzata dopo la verifica
+      // Ad esempio: aggiornare il profilo utente, inviare email di benvenuto, ecc.
+    },
   },
   socialProviders: {
     google: {

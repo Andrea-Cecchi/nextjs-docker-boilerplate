@@ -13,7 +13,6 @@ export function LegalFooter() {
           {/* Informazioni Legali */}
           <div>
             <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2">
-              <Shield className="h-4 w-4" />
               Informazioni Legali
             </h3>
             <div className="space-y-2">
@@ -93,19 +92,19 @@ export function LegalFooter() {
               <div>
                 <p className="font-medium">Supporto</p>
                 <a 
-                  href="mailto:support@farmix.it" 
+                  href="mailto:support@farmix.info" 
                   className="text-[#0066cc] hover:underline"
                 >
-                  support@farmix.it
+                  support@farmix.info
                 </a>
               </div>
               <div>
                 <p className="font-medium">Privacy</p>
                 <a 
-                  href="mailto:privacy@farmix.it" 
+                  href="mailto:privacy@farmix.info" 
                   className="text-[#0066cc] hover:underline"
                 >
-                  privacy@farmix.it
+                  privacy@farmix.info
                 </a>
               </div>
             </div>

@@ -3,10 +3,14 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { useAuth } from "./providers";
-import { Pill } from "lucide-react";
+import { Pill, User, Settings, Heart, LogOut, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { usePostHog } from "posthog-js/react";
 import { usePathname } from "next/navigation";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Separator } from "./ui/separator";
+import { Highlighter } from "@/components/magicui/highlighter";
 
 export function NavBar() {
   const { session, isLoading, signOut } = useAuth();
@@ -36,6 +40,8 @@ export function NavBar() {
       }
       
       await signOut();
+      //refreshing the page
+      window.location.reload();
     } catch (error) {
       console.error("Errore durante il logout:", error);
     }
@@ -89,25 +95,18 @@ export function NavBar() {
         </Link>
         <div className="flex items-center gap-3">
           {/* Menu principale */}
-          <div className="mr-4 hidden items-center gap-1 md:flex">
+          <div className="hidden items-center gap-1 md:flex">
             <Link href="/drugs">
               <Button variant="ghost" size="sm">
-                Cerca Farmaci
+                <Highlighter action='underline' color='#0066cc'>Esplora</Highlighter>
               </Button>
             </Link>
-            {session && (
-              <Link href="/dashboard/favorites">
-                <Button variant="ghost" size="sm">
-                  Preferiti
-                </Button>
-              </Link>
-            )}
           </div>
-
+          <Separator orientation="vertical" className="data-[orientation=vertical]:h-4" />
           {!session ? (
             <>
               <Link href={createAuthUrl('login')}>
-                <Button variant="ghost" size="sm">
+                <Button className="border-1 border-black bg-transparent text-black dark:text-white hover:bg-white dark:hover:bg-transparent hover:text-black dark:hover:text-white transition-all duration-300" size="sm">
                   Login
                 </Button>
               </Link>
@@ -121,22 +120,67 @@ export function NavBar() {
               </Link>
             </>
           ) : (
-            <>
-              <div className="text-muted-foreground hidden text-sm sm:block">
-                Benvenuto,{" "}
-                <span className="text-foreground font-semibold">
-                  {session.user?.name || session.user?.email}
-                </span>
-              </div>
-              <Link href="/dashboard">
-                <Button variant="ghost" size="sm">
-                  Dashboard
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="relative h-9 w-9 rounded-full"
+                >
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src={session.user?.image || ""} />
+                    <AvatarFallback className="bg-[#0066cc]/10 text-[#0066cc] font-semibold">
+                      {session.user?.name
+                        ? session.user.name.charAt(0).toUpperCase()
+                        : session.user?.email?.charAt(0).toUpperCase() || "U"}
+                    </AvatarFallback>
+                  </Avatar>
                 </Button>
-              </Link>
-              <Button onClick={handleSignOut} variant="outline" size="sm">
-                Logout
-              </Button>
-            </>
+              </PopoverTrigger>
+              <PopoverContent className="w-56 p-0" align="end">
+                <div className="px-3 py-2">
+                  <p className="text-sm font-medium">
+                    {session.user?.name || "Utente"}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {session.user?.email}
+                  </p>
+                </div>
+                <Separator />
+                <div className="p-1">
+                  <Link href="/dashboard">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="w-full justify-start"
+                    >
+                      <Settings className="mr-2 h-4 w-4" />
+                      Dashboard
+                    </Button>
+                  </Link>
+                  <Link href="/dashboard/favorites">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="w-full justify-start"
+                    >
+                      <Heart className="mr-2 h-4 w-4" />
+                      Preferiti
+                    </Button>
+                  </Link>
+                  <Separator className="my-1" />
+                  <Button
+                    onClick={handleSignOut}
+                    variant="ghost"
+                    size="sm"
+                    className="w-full justify-start text-red-600 hover:text-red-600 hover:bg-red-50"
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Logout
+                  </Button>
+                </div>
+              </PopoverContent>
+            </Popover>
           )}
         </div>
       </div>
