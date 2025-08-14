@@ -7,6 +7,7 @@ import { db } from "~/server/db";
 import { auth } from "~/lib/auth";
 import { DrugCard } from "~/components/drug-card";
 import { DrugsLoadingSkeleton } from "~/components/drugs-loading-skeleton";
+import { AifaAttribution } from "~/components/aifa-attribution";
 import type { SearchParams } from "~/types/drugs";
 
 async function getDrugs(searchParams: SearchParams, userId?: string) {
@@ -288,6 +289,11 @@ export async function DrugsContent({ searchParams }: DrugsContentProps) {
           )}
         </div>
       )}
+      
+      {/* Attribuzione AIFA sempre visibile */}
+      <div className="mt-8">
+        <AifaAttribution variant="full" />
+      </div>
     </div>
   );
 }

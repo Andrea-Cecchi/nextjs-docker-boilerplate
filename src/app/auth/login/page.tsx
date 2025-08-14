@@ -4,7 +4,7 @@ import { LoginForm } from "~/components/auth/login-form";
 function LoginFormWrapper() {
   return (
     <Suspense fallback={
-      <div className="flex min-h-svh w-full items-center justify-center bg-gradient-to-br from-blue-50 via-white to-indigo-50 p-6 md:p-10">
+      <div className="flex min-h-svh w-full items-center justify-center bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-purple-950 dark:via-pink-950 dark:to-blue-950 p-6 md:p-10">
         <div className="w-full max-w-sm">
           <div className="mb-8 text-center">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">

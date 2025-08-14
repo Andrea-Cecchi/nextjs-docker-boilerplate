@@ -9,6 +9,7 @@ import {
 import { Button } from "~/components/ui/button";
 import { Pill, Euro } from "lucide-react";
 import { FavoriteButton } from "~/components/favorite-button";
+import { AifaAttribution } from "~/components/aifa-attribution";
 import type { DrugWithPriceHistoryAndFavorites } from "~/types/drugs";
 
 interface DrugCardProps {
@@ -123,16 +124,19 @@ export function DrugCard({ drug }: DrugCardProps) {
             </div>
           )}
         </div>
-        <div className="mt-4 border-t pt-4">
-          <div className="flex gap-2">
-            <Button variant="outline" className="flex-1" asChild>
-              <Link href={`/drugs/${drug.id}`}>Visualizza dettagli</Link>
-            </Button>
-            <FavoriteButton
-              drugId={drug.id}
-              initialIsFavorite={drug.isFavorited}
-            />
-          </div>
+        
+        <div className="mt-4 border-t pt-3">
+          <AifaAttribution variant="compact" className="mb-3" />
+        </div>
+        
+        <div className="flex gap-2">
+          <Button variant="outline" className="flex-1" asChild>
+            <Link href={`/drugs/${drug.id}`}>Visualizza dettagli</Link>
+          </Button>
+          <FavoriteButton
+            drugId={drug.id}
+            initialIsFavorite={drug.isFavorited}
+          />
         </div>
       </CardContent>
     </Card>

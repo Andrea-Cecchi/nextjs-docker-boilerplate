@@ -33,6 +33,7 @@ import {
 } from "recharts";
 import { format } from "date-fns";
 import { it } from "date-fns/locale";
+import { AifaAttribution } from "./aifa-attribution";
 
 interface PricePoint {
   date: string;
@@ -273,6 +274,10 @@ export function PriceChart({ data }: PriceChartProps) {
             />
           </AreaChart>
         </ChartContainer>
+        
+        <div className="mt-4 pt-4 border-t">
+          <AifaAttribution variant="compact" />
+        </div>
       </CardContent>
     </Card>
   );

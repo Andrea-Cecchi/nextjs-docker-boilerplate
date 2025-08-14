@@ -8,6 +8,7 @@ import {
 import { Button } from "~/components/ui/button";
 import { NavBar } from "~/components/navbar";
 import { FavoriteButton } from "~/components/favorite-button";
+import { LegalFooter } from "~/components/legal-footer";
 import { Heart, Pill, Euro, Calendar, TrendingUp } from "lucide-react";
 import Link from "next/link";
 import { auth } from "~/lib/auth";
@@ -201,6 +202,8 @@ export default async function FavoritesPage() {
           </>
         )}
       </main>
+      
+      <LegalFooter />
     </div>
   );
 }

@@ -22,6 +22,7 @@ import { db } from "~/server/db";
 import { PriceChart } from "~/components/price-chart";
 import { BackButton } from "~/components/BackButton";
 import { FavoriteButton } from "~/components/favorite-button";
+import { LegalFooter } from "~/components/legal-footer";
 import { auth } from "~/lib/auth";
 
 interface DrugDetailProps {
@@ -443,6 +444,8 @@ export default async function DrugDetailPage({ params }: DrugDetailProps) {
           <DrugDetailContent aic={aic} />
         </Suspense>
       </main>
+      
+      <LegalFooter />
     </div>
   );
 }

@@ -1,6 +1,8 @@
 import { type Metadata } from "next";
 import { Geist, Titillium_Web, Bungee_Shade } from "next/font/google";
 import { Providers } from "../components/providers";
+import CookieBanner from "../components/cookie-banner";
+import { CookieSettingsButton } from "../components/cookie-settings-button";
 import NextTopLoader from "nextjs-toploader";
 import "~/styles/globals.css";
 
@@ -23,9 +25,9 @@ const bungeeShade = Bungee_Shade({
 });
 
 export const metadata: Metadata = {
-  title: "FarMix - Ricerca Farmaci AIFA",
+  title: "Farmix - Ricerca Farmaci AIFA",
   description:
-    "Ricerca farmaci dalle Liste di Trasparenza AIFA con storico prezzi e monitoraggio preferiti",
+    "Ricerca farmaci dalle Liste di Trasparenza AIFA con storico prezzi, monitoraggio e preferiti",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
@@ -34,10 +36,12 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="it" className={`${geist.variable} ${titillium.variable} ${bungeeShade.variable}`}>
-      <body className="font-titillium">
+      <body className="font-titillium ">
         <Providers>
           <NextTopLoader showSpinner={false} />
           {children}
+          <CookieBanner />
+          <CookieSettingsButton />
         </Providers>
       </body>
     </html>

@@ -1,6 +1,7 @@
 import { NavBar } from "~/components/navbar";
 import { DrugSearchForm } from "~/components/drug-search-form";
 import { DrugsList } from "~/components/drugs-content";
+import { LegalFooter } from "~/components/legal-footer";
 import type { SearchParams } from "~/types/drugs";
 
 export default async function DrugsPage({
@@ -26,6 +27,8 @@ export default async function DrugsPage({
 
         <DrugsList searchParams={resolvedSearchParams} />
       </main>
+      
+      <LegalFooter />
     </div>
   );
 }

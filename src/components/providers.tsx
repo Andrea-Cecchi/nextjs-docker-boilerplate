@@ -4,6 +4,7 @@ import posthog from "posthog-js";
 import { PostHogProvider as PHProvider } from "posthog-js/react";
 import { useEffect } from "react";
 import { authClient } from "../lib/auth-client";
+import { getCookieConsent } from "./cookie-banner";
 import type { ReactNode } from "react";
 
 // Esportiamo l'hook useAuth direttamente da Better Auth
@@ -42,12 +43,19 @@ export function PostHogIdentifier() {
 // Provider che inizializza e fornisce PostHog al client
 export function PostHogProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
+    // Determina la modalità di persistenza basata sul consenso dell'utente
+    const consent = getCookieConsent();
+    const persistence = consent === 'yes' ? 'localStorage+cookie' : 'memory';
+    
     posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
       api_host: "/ingest",
       ui_host: "https://eu.posthog.com",
       defaults: "2025-05-24",
       capture_exceptions: true,
       debug: process.env.NODE_ENV === "development",
+      persistence, // Configura la persistenza basata sul consenso
+      // Se è solo 'essential', disabilita l'autocapture
+      autocapture: consent === 'essential' ? false : undefined,
     });
   }, []);
 

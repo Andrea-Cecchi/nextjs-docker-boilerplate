@@ -5,14 +5,16 @@ import { NavBar } from "~/components/navbar";
 import { Search, Pill, Heart, Zap, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "~/components/ui/button";
+import { LegalFooter } from "~/components/legal-footer";
 import Link from "next/link";
 
 export default function HomePage() {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-purple-950 dark:via-pink-950 dark:to-blue-950">
-      <NavBar />
+    <div className="relative bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-purple-950 dark:via-pink-950 dark:to-blue-950">
+      <div className="relative min-h-screen overflow-hidden">
+        <NavBar />
 
-      <main className="relative z-10 container mx-auto px-4 py-16">
+        <main className="relative z-10 container mx-auto px-4 py-16">
         <div className="mb-20 text-center">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -80,7 +82,10 @@ export default function HomePage() {
             </Link>
           </Button>
         </div>
-      </main>
+        </main>
+      </div>
+      
+      <LegalFooter />
     </div>
   );
 }

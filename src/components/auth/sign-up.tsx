@@ -69,12 +69,12 @@ export default function SignUp() {
   };
 
   return (
-    <Card className="z-50 max-w-md rounded-md rounded-t-none">
+    <Card className="z-50 max-w-md rounded-xl border border-white/20 bg-white/20 shadow-xl backdrop-blur-xs">
       <CardHeader>
-        <CardTitle className="text-lg md:text-xl">Sign Up</CardTitle>
+        <CardTitle className="text-lg md:text-xl">Registrati</CardTitle>
 
         <CardDescription className="text-xs md:text-sm">
-          Enter your information to create an account
+          Inserisci i tuoi dati per creare un account
         </CardDescription>
       </CardHeader>
 
@@ -82,7 +82,7 @@ export default function SignUp() {
         <div className="grid gap-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2">
-              <Label htmlFor="first-name">First name</Label>
+              <Label htmlFor="first-name">Nome</Label>
 
               <Input
                 id="first-name"
@@ -96,7 +96,7 @@ export default function SignUp() {
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="last-name">Last name</Label>
+              <Label htmlFor="last-name">Cognome</Label>
 
               <Input
                 id="last-name"
@@ -111,7 +111,7 @@ export default function SignUp() {
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">Indirizzo email</Label>
 
             <Input
               id="email"
@@ -126,7 +126,7 @@ export default function SignUp() {
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">Inserisci una password</Label>
 
             <Input
               id="password"
@@ -139,7 +139,7 @@ export default function SignUp() {
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="password">Confirm Password</Label>
+            <Label htmlFor="password">Conferma la password</Label>
 
             <Input
               id="password_confirmation"
@@ -147,47 +147,10 @@ export default function SignUp() {
               value={passwordConfirmation}
               onChange={(e) => setPasswordConfirmation(e.target.value)}
               autoComplete="new-password"
-              placeholder="Confirm Password"
+              placeholder="Conferma la password"
             />
           </div>
-
-          <div className="grid gap-2">
-            <Label htmlFor="image">Profile Image (optional)</Label>
-
-            <div className="flex items-end gap-4">
-              {imagePreview && (
-                <div className="relative h-16 w-16 overflow-hidden rounded-sm">
-                  <Image
-                    src={imagePreview}
-                    alt="Profile preview"
-                    layout="fill"
-                    objectFit="cover"
-                  />
-                </div>
-              )}
-
-              <div className="flex w-full items-center gap-2">
-                <Input
-                  id="image"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="w-full"
-                />
-
-                {imagePreview && (
-                  <X
-                    className="cursor-pointer"
-                    onClick={() => {
-                      setImage(null);
-
-                      setImagePreview(null);
-                    }}
-                  />
-                )}
-              </div>
-            </div>
-          </div>
+            
 
           <Button
             type="submit"
@@ -240,19 +203,11 @@ export default function SignUp() {
             {loading ? (
               <Loader2 size={16} className="animate-spin" />
             ) : (
-              "Create an account"
+              "Crea un account"
             )}
           </Button>
         </div>
       </CardContent>
-
-      <CardFooter>
-        <div className="flex w-full justify-center border-t py-4">
-          <p className="text-center text-xs text-neutral-500">
-            Secured by <span className="text-orange-400">better-auth.</span>
-          </p>
-        </div>
-      </CardFooter>
     </Card>
   );
 }
