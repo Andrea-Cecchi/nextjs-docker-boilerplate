@@ -35,7 +35,7 @@ export default function TermsPage() {
                         <li>Non utilizzare queste informazioni per autodiagnosi o automedicazione</li>
                         <li>Consulta sempre il tuo medico prima di iniziare, modificare o interrompere qualsiasi terapia</li>
                         <li>I prezzi e le informazioni sui farmaci possono variare e non essere sempre aggiornati</li>
-                        <li>In caso di emergenza medica, contatta immediatamente il 118 o recati al pronto soccorso</li>
+                        <li>In caso di emergenza medica, contatta immediatamente il 112 o recati al pronto soccorso</li>
                       </ul>
                     </div>
                   </div>

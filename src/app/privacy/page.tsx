@@ -216,7 +216,7 @@ export default function PrivacyPage() {
                   <br/>
                   <strong>Garante Privacy</strong> - Piazza Venezia, 11 - 00187 Roma
                   <br/>
-                  Tel: +39 06 69677.1 | Email: garante@gpdp.it
+                  Tel: +39 06.696771| Email: protocollo@gpdp.it
                 </p>
               </section>
 
